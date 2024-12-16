@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import Card from "../dashboard/Card"; // Adjust the path as necessary
 import {
   FaTemperatureHigh,
@@ -12,108 +12,124 @@ import {
 import { WiHumidity } from "react-icons/wi";
 import { SiOxygen } from "react-icons/si";
 
-const data = [
-  {
-    title: "pH",
-    yAxisData: [
-      6.5, 7.0, 7.2, 6.8, 7.1, 6.9, 7.0, 6.7, 7.3, 6.8, 7.0, 6.9, 7.1, 6.8, 7.0,
-      6.9, 7.2, 6.7, 7.1, 6.8,
-    ],
-    bgcolor: "bg-green-300", // Updated to a softer green
-    lineChartColor: "#A5D6A7", // Softer green color
-    color: "text-green-700", // Adjusted to a darker green for better contrast
-    icon: <FaWater />,
-  },
-  {
-    title: "Turbidity (NTU)",
-    yAxisData: [
-      1.2, 1.5, 1.0, 1.8, 1.3, 1.4, 1.1, 1.6, 1.2, 1.5, 1.3, 1.4, 1.1, 1.2, 1.3,
-      1.5, 1.4, 1.1, 1.2, 1.3,
-    ],
-    bgcolor: "bg-blue-300", // Updated to a softer blue
-    lineChartColor: "#90CAF9", // Softer blue color
-    color: "text-blue-700", // Adjusted to a darker blue for better contrast
-    icon: <FaCloudRain />, // Changed to a cloud rain icon from react-icons
-  },
-  {
-    title: "TDS (PPM)",
-    yAxisData: [
-      150, 160, 140, 155, 145, 150, 160, 155, 150, 145, 140, 150, 155, 160, 145,
-      150, 140, 155, 150, 160,
-    ],
-    bgcolor: "bg-pink-500", // Updated to a softer pink
-    lineChartColor: "#F48FB1", // Softer pink color
-    color: "text-pink-700", // Adjusted to a darker pink for better contrast
-    icon: <FaTint />, // Changed to a water droplet icon from react-icons
-  },
-  {
-    title: "Dissolved Oxygen (mg/L)",
-    yAxisData: [
-      8.0, 7.5, 8.2, 7.8, 8.1, 7.9, 8.0, 7.6, 8.3, 7.7, 8.1, 7.8, 8.0, 7.5, 8.2,
-      7.9, 8.1, 7.6, 8.0, 7.8,
-    ],
-    bgcolor: "bg-purple-300", // Updated to a softer purple
-    lineChartColor: "#E1BEE7", // Softer purple color
-    color: "text-purple-700", // Adjusted to a darker purple for better contrast
-    icon: <SiOxygen />, // Changed to a wave square icon from react-icons
-  },
-  {
-    title: "Water Temperature (°C)",
-    yAxisData: [
-      20, 21, 19, 22, 20, 21, 20, 19, 22, 21, 20, 19, 22, 21, 20, 19, 22, 21,
-      20, 19,
-    ],
-    bgcolor: "bg-orange-300", // Updated to a softer orange
-    lineChartColor: "#FFCC80", // Softer orange color
-    color: "text-orange-700", // Adjusted to a darker orange for better contrast
-    icon: <FaTemperatureHigh />, // Changed to a temperature high icon from react-icons
-  },
-  {
-    title: "Humidity (%)",
-    yAxisData: [
-      60, 65, 62, 58, 61, 64, 63, 60, 65, 62, 61, 64, 63, 60, 65, 62, 61, 64,
-      63, 60,
-    ],
-    bgcolor: "bg-teal-300", // Updated to a softer teal
-    lineChartColor: "#80CBC4", // Softer teal color
-    color: "text-teal-700", // Adjusted to a darker teal for better contrast
-    icon: <WiHumidity />, // Changed to a humidity icon from react-icons
-  },
-  {
-    title: "Air Temperature (°C)",
-    yAxisData: [
-      25, 26, 24, 27, 25, 26, 25, 24, 27, 26, 25, 24, 27, 26, 25, 24, 27, 26,
-      25, 24,
-    ],
-    bgcolor: "bg-yellow-300", // Updated to a softer yellow
-    lineChartColor: "#F00176", // Softer yellow color
-    color: "text-yellow-700", // Adjusted to a darker yellow for better contrast
-    icon: <FaTemperatureHigh />, // Changed to a temperature high icon from react-icons
-  },
-  {
-    title: "Air Heat Index (°C)",
-    yAxisData: [
-      30, 31, 29, 32, 30, 31, 30, 29, 32, 31, 30, 29, 32, 31, 30, 29, 32, 31,
-      30, 29,
-    ],
-    bgcolor: "bg-indigo-300", // Updated to a softer indigo
-    lineChartColor: "#BBDEFB", // Softer indigo color
-    color: "text-indigo-700", // Adjusted to a darker indigo for better contrast
-    icon: <FaFire />, // Changed to a fire icon from react-icons
-  },
-  {
-    title: "Water Level",
-    yAxisData: [
-      100, 102, 98, 101, 100, 99, 100, 102, 101, 100, 99, 100, 101, 102, 100,
-      99, 100, 101, 102, 100,
-    ],
-    bgcolor: "bg-gray-300", // Updated to a softer gray
-    lineChartColor: "#B0BEC5", // Softer gray color
-    color: "text-gray-700", // Adjusted to a darker gray for better contrast
-    icon: <FaWaveSquare />, // Changed to a wave square icon from react-icons
-  },
-];
 export default function Graphs() {
+  const [data, setData] = useState([
+    {
+      title: "pH",
+      yAxisData: [0],
+      bgcolor: "bg-green-300", // Updated to a softer green
+      lineChartColor: "#A5D6A7", // Softer green color
+      color: "text-green-700", // Adjusted to a darker green for better contrast
+      icon: <FaWater />,
+    },
+    {
+      title: "Turbidity (NTU)",
+      yAxisData: [0],
+      bgcolor: "bg-blue-300", // Updated to a softer blue
+      lineChartColor: "#90CAF9", // Softer blue color
+      color: "text-blue-700", // Adjusted to a darker blue for better contrast
+      icon: <FaCloudRain />, // Changed to a cloud rain icon from react-icons
+    },
+    {
+      title: "TDS (PPM)",
+      yAxisData: [0],
+      bgcolor: "bg-pink-500", // Updated to a softer pink
+      lineChartColor: "#F48FB1", // Softer pink color
+      color: "text-pink-700", // Adjusted to a darker pink for better contrast
+      icon: <FaTint />, // Changed to a water droplet icon from react-icons
+    },
+    {
+      title: "Dissolved Oxygen (mg/L)",
+      yAxisData: [0],
+      bgcolor: "bg-purple-300", // Updated to a softer purple
+      lineChartColor: "#E1BEE7", // Softer purple color
+      color: "text-purple-700", // Adjusted to a darker purple for better contrast
+      icon: <SiOxygen />, // Changed to a wave square icon from react-icons
+    },
+    {
+      title: "Water Temperature (°C)",
+      yAxisData: [0],
+      bgcolor: "bg-orange-300", // Updated to a softer orange
+      lineChartColor: "#FFCC80", // Softer orange color
+      color: "text-orange-700", // Adjusted to a darker orange for better contrast
+      icon: <FaTemperatureHigh />, // Changed to a temperature high icon from react-icons
+    },
+    {
+      title: "Humidity (%)",
+      yAxisData: [0],
+      bgcolor: "bg-teal-300", // Updated to a softer teal
+      lineChartColor: "#80CBC4", // Softer teal color
+      color: "text-teal-700", // Adjusted to a darker teal for better contrast
+      icon: <WiHumidity />, // Changed to a humidity icon from react-icons
+    },
+    {
+      title: "Air Temperature (°C)",
+      yAxisData: [0],
+      bgcolor: "bg-yellow-300", // Updated to a softer yellow
+      lineChartColor: "#F00176", // Softer yellow color
+      color: "text-yellow-700", // Adjusted to a darker yellow for better contrast
+      icon: <FaTemperatureHigh />, // Changed to a temperature high icon from react-icons
+    },
+    // {
+    //   title: "Air Heat Index (°C)",
+    //   yAxisData: [0],
+    //   bgcolor: "bg-indigo-300", // Updated to a softer indigo
+    //   lineChartColor: "#BBDEFB", // Softer indigo color
+    //   color: "text-indigo-700", // Adjusted to a darker indigo for better contrast
+    //   icon: <FaFire />, // Changed to a fire icon from react-icons
+    // },
+    // {
+    //   title: "Water Level",
+    //   yAxisData: [0],
+    //   bgcolor: "bg-gray-300", // Updated to a softer gray
+    //   lineChartColor: "#B0BEC5", // Softer gray color
+    //   color: "text-gray-700", // Adjusted to a darker gray for better contrast
+    //   icon: <FaWaveSquare />, // Changed to a wave square icon from react-icons
+    // },
+  ]);
+
+  useEffect(() => {
+    const fetchData = async () => {
+      const response = await fetch("http://192.168.0.143:5000/get_sensor_data");
+      const sensorData = await response.json();
+      const updatedData = data.map((graphData) => {
+        const newYAxisData = [...graphData.yAxisData];
+        sensorData.forEach((item) => {
+          switch (graphData.title) {
+            case "TDS (PPM)":
+              newYAxisData.push(item.TDS);
+              break;
+            case "Turbidity (NTU)":
+              newYAxisData.push(item.Turbidity);
+              break;
+            case "pH":
+              newYAxisData.push(item.pH);
+              break;
+            case "Water Temperature (°C)":
+              newYAxisData.push(item.temp_tank);
+              break;
+            case "Humidity (%)":
+              newYAxisData.push(item.Humidity);
+              break;
+            case "Air Temperature (°C)":
+              newYAxisData.push(item.temp_pipe);
+              break;
+            case "Dissolved Oxygen (mg/L)":
+              newYAxisData.push(item.DO);
+              break;
+            default:
+              break;
+          }
+        });
+        return { ...graphData, yAxisData: newYAxisData };
+      });
+      setData(updatedData);
+      setActiveCard(updatedData[0]);
+    };
+    fetchData();
+    // const interval = setInterval(fetchData, 60000); // Fetch data every 1 minute
+    // return () => clearInterval(interval); // Cleanup function to stop the interval
+  }, []);
   const [activeCard, setActiveCard] = useState(data[0]);
   const showComponent = (i) => {
     setActiveCard(data[i]);
@@ -121,8 +137,7 @@ export default function Graphs() {
   };
   const downloadCSV = () => {
     const csvContent =
-      Object.keys(activeCard).join(",") +
-      "\n" +
+      Object.keys(activeCard).join(",") + "\n" +
       Object.values(activeCard).join(",");
     const blob = new Blob([csvContent], { type: "text/csv;charset=utf-8;" });
     const link = document.createElement("a");
@@ -147,11 +162,10 @@ export default function Graphs() {
   };
 
   const downloadAllCSV = () => {
-    const csvContent = data
-      .map((card) => {
-        return Object.values(card).join(",");
-      })
-      .join("\n");
+    const csvContent = [
+      Object.keys(data[0]).join(","),
+      ...data.map((card) => Object.values(card).join(",")),
+    ].join("\n");
     const blob = new Blob([csvContent], { type: "text/csv;charset=utf-8;" });
     const link = document.createElement("a");
     const url = URL.createObjectURL(blob);
