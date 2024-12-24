@@ -41,7 +41,7 @@ const Sidebar = ({ activeTab, setActiveTab }) => (
   </div>
 );
 
-const Dashboard = () => {
+const HistoricalData = () => {
   const [activeTab, setActiveTab] = useState('overview');
 
   const renderContent = () => {
@@ -82,4 +82,5 @@ const Dashboard = () => {
   );
 };
 
-export default Dashboard;
+export default HistoricalData;
+  

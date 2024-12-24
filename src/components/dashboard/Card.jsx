@@ -5,7 +5,7 @@ import { motion } from "framer-motion"; // Import motion from framer-motion
 export default function Card({ data }) {
   const chartData = [
     ["Day", "Value"],
-    ...data.yAxisData.map((value, index) => {
+    ...data?.yAxisData?.map((value, index) => {
       return [index + 1, value];
     }),
   ];

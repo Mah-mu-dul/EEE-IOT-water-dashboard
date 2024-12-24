@@ -1,0 +1,47 @@
+[
+  {
+    "TDS": 100,
+    "Turbidity": 5,
+    "pH": 7,
+    "temp_tank": 20,
+    "Humidity": 50,
+    "temp_pipe": 25,
+    "DO": 8
+  },
+  {
+    "TDS": 120,
+    "Turbidity": 6,
+    "pH": 7.5,
+    "temp_tank": 21,
+    "Humidity": 55,
+    "temp_pipe": 26,
+    "DO": 9
+  },
+  {
+    "TDS": 110,
+    "Turbidity": 4,
+    "pH": 6.5,
+    "temp_tank": 19,
+    "Humidity": 45,
+    "temp_pipe": 24,
+    "DO": 7
+  },
+  {
+    "TDS": 105,
+    "Turbidity": 3,
+    "pH": 6.8,
+    "temp_tank": 18,
+    "Humidity": 40,
+    "temp_pipe": 23,
+    "DO": 6
+  },
+  {
+    "TDS": 115,
+    "Turbidity": 5,
+    "pH": 7.2,
+    "temp_tank": 20,
+    "Humidity": 50,
+    "temp_pipe": 25,
+    "DO": 8
+  }
+]
